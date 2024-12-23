@@ -15,7 +15,7 @@ export const WeatherStoreContext = createContext<IWeatherStoreApi | undefined>(u
 
 export function WeatherStoreProvider({ children }: IWeatherStoreProviderProps) {
     const storeRef = useRef<IWeatherStoreApi>(undefined);
-    console.log('first');
+
     if (!storeRef.current) {
         storeRef.current = createWeatherStore();
     }
