@@ -6,3 +6,8 @@ export interface ILocation {
 export interface IWeather {
     [key: string]: string | number;
 }
+
+export interface IWeatherDetails {
+    icon: string;
+    description: string;
+}

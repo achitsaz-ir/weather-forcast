@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { Toaster } from 'sonner';
 
@@ -14,9 +14,11 @@ export default function WeatherForecastTemplate({
 }>) {
     return (
         <WeatherStoreProvider>
-            <Header />
-            <div className="px-36">{children}</div>
-            <Toaster />
+            <Suspense>
+                <Header />
+                <div className="px-36">{children}</div>
+                <Toaster />
+            </Suspense>
         </WeatherStoreProvider>
     );
 }
