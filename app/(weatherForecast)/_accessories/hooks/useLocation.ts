@@ -4,11 +4,12 @@ import { useLayoutEffect, useState } from 'react';
 
 import { toast } from 'sonner';
 
+import handleCatchError from '@/utils/handleCatchError';
+
+import { ILocation } from '../interfaces';
+
 export default function useLocation() {
-    const [userLocation, setUserLocation] = useState<{
-        latitude: number;
-        longitude: number;
-    } | null>(null);
+    const [userLocation, setUserLocation] = useState<ILocation | null>(null);
 
     const getUserLocation = () => {
         if (navigator.geolocation) {
@@ -47,15 +48,7 @@ export default function useLocation() {
                             longitude: data.longitude
                         });
                     } catch (error) {
-                        let message = 'Error while get online location';
-
-                        if (error instanceof Error) {
-                            message = error.message;
-                        } else {
-                            message = String(error);
-                        }
-
-                        toast(message);
+                        handleCatchError(error);
                     }
                 },
 
