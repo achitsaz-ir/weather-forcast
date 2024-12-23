@@ -1,17 +1,21 @@
-"use client";
+'use client';
 
-import React from "react";
-import Header from "./_accessories/components/Header";
+import React from 'react';
+
+import { Toaster } from 'sonner';
+
+import Header from './_accessories/components/Header';
 
 export default function WeatherForecastTemplate({
-  children,
+    children
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <>
-      <Header />
-      <div className="px-36">{children}</div>
-    </>
-  );
+    return (
+        <>
+            <Header />
+            <div className="px-36">{children}</div>
+            <Toaster />
+        </>
+    );
 }
