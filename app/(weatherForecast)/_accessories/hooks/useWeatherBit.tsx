@@ -5,6 +5,14 @@ import handleCatchError from '@/utils/handleCatchError';
 import { ILocation } from '../interfaces';
 import useWeatherStore from './useWeatherStore';
 
+/**
+ * Custom hook to fetch weather data from the WeatherBit API.
+ *
+ * This hook provides a function to fetch the weather data for a given location
+ * and update the weather store with the fetched data.
+ *
+ * @returns {object} An object containing the getTodayWeather function.
+ */
 export default function useWeatherBit() {
     const searchParams = useSearchParams();
     const setCityOfLocation = useWeatherStore((state) => state.setCityOfLocation);
@@ -12,11 +20,15 @@ export default function useWeatherBit() {
 
     const weatherUnit = searchParams.get('unit');
 
-    const getTodayWether = async ({ latitude, longitude }: ILocation) => {
-        // you need to get api key from weatherbit.io and set it to .env with key NEXT_PUBLIC_WEATHERBIT_API_KEY
-        const urlQueries = `key=${process.env.NEXT_PUBLIC_WEATHERBIT_API_KEY}&units=${weatherUnit}&lat=${latitude}&lon=${longitude}&days=8`;
+    /**
+     * Fetches the weather data for today from the WeatherBit API.
+     *
+     * @param {ILocation} location - The location for which to fetch the weather data.
+     */
+    const getTodayWeather = async ({ latitude, longitude }: ILocation) => {
+        const urlQueries = buildWeatherBitQuery(latitude, longitude, weatherUnit);
         try {
-            const todayWeatherRes = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?${urlQueries}`);
+            const todayWeatherRes = await fetch(urlQueries);
             if (!todayWeatherRes.ok) {
                 throw new Error(`Error! Response status: ${todayWeatherRes.status}`);
             }
@@ -25,9 +37,29 @@ export default function useWeatherBit() {
             setWeatherForecasts(weatherBitData?.data);
             setCityOfLocation(weatherBitData.city_name);
         } catch (error) {
-            handleCatchError(error);
+            handleCatchError(error instanceof Error ? error : new Error('An unknown error occurred'));
         }
     };
 
-    return { getTodayWether };
+    return { getTodayWeather };
+}
+
+/**
+ * Builds the query URL for the WeatherBit API.
+ *
+ * @param {number | string} latitude - The latitude of the location.
+ * @param {number | string} longitude - The longitude of the location.
+ * @param {string | null} weatherUnit - The unit of measurement for the weather data.
+ * @returns {string} The query URL for the WeatherBit API.
+ */
+function buildWeatherBitQuery(
+    latitude: number | string,
+    longitude: number | string,
+    weatherUnit: string | null
+): string {
+    const apiKey = process.env.NEXT_PUBLIC_WEATHERBIT_API_KEY;
+    if (!apiKey) {
+        throw new Error('API key for WeatherBit is not set');
+    }
+    return `https://api.weatherbit.io/v2.0/forecast/daily?key=${apiKey}&units=${weatherUnit}&lat=${latitude}&lon=${longitude}&days=8`;
 }

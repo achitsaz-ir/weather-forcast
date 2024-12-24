@@ -14,15 +14,23 @@ import { WeatherStoreProvider } from './_accessories/providers/WeatherStoreProvi
  * @param {React.ReactNode} props.children - The child components to be rendered within the layout.
  * @returns {JSX.Element} The rendered component.
  */
-
 export default function WeatherForecastTemplate({ children }: { children: React.ReactNode }): JSX.Element {
     return (
         <WeatherStoreProvider>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<LoadingFallback />}>
                 <Header />
-                <div className="px-36">{children}</div>
+                <main className="px-36">{children}</main>
                 <Toaster />
             </Suspense>
         </WeatherStoreProvider>
     );
+}
+
+/**
+ * LoadingFallback component to display a loading state while the main content is being loaded.
+ *
+ * @returns {JSX.Element} The rendered LoadingFallback component.
+ */
+function LoadingFallback(): JSX.Element {
+    return <div>Loading...</div>;
 }

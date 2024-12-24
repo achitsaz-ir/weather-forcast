@@ -4,6 +4,9 @@ import { IWeather } from '../interfaces';
 
 /**
  * Interface representing the state of the weather store.
+ *
+ * @property {IWeather[]} forecasts - Array of weather forecasts.
+ * @property {string} city - Name of the city for the weather forecasts.
  */
 interface IWeatherState {
     forecasts: IWeather[];
@@ -12,6 +15,9 @@ interface IWeatherState {
 
 /**
  * Interface representing the actions for the weather store.
+ *
+ * @property {function} setWeatherForecasts - Function to set the weather forecasts.
+ * @property {function} setCityOfLocation - Function to set the city of the location.
  */
 interface IWeatherActions {
     setWeatherForecasts: (weather: IWeather[]) => void;

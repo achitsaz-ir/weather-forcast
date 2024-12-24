@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { JSX } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
 
 import useWeatherStore from '../hooks/useWeatherStore';
 
-export default function CityOfLocation() {
+/**
+ * Component to display the city of the current location.
+ *
+ * This component retrieves the city name from the weather store and displays it.
+ * If the city name is not available, it shows a loading skeleton.
+ *
+ * @returns {JSX.Element} The rendered CityOfLocation component.
+ */
+export default function CityOfLocation(): JSX.Element {
     const city = useWeatherStore((state) => state?.city);
 
     return (
