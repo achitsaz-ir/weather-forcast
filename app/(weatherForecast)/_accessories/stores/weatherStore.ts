@@ -3,21 +3,26 @@ import { create } from 'zustand';
 import { IWeather } from '../interfaces';
 
 interface IWeatherState {
-    today: IWeather;
+    forecasts: IWeather[];
+    city: string;
 }
 
 interface IWeatherActions {
-    setTodayWeather: (weather: IWeather) => void;
+    setWeatherForecasts: (weather: IWeather[]) => void;
+    setCityOfLocation: (city: string) => void;
 }
 
 export interface IWeatherStore extends IWeatherActions, IWeatherState {}
 
-const defaultState = (): IWeatherState => ({ today: {} }) as IWeatherState;
+const defaultState = (): IWeatherState => ({ forecasts: [] }) as unknown as IWeatherState;
 
 export const createWeatherStore = (initState: () => IWeatherState = defaultState) =>
     create<IWeatherStore>()((set) => ({
         ...initState(),
-        setTodayWeather(weather) {
-            set(() => ({ today: weather }));
+        setWeatherForecasts(weather) {
+            set(() => ({ forecasts: weather }));
+        },
+        setCityOfLocation(city) {
+            set(() => ({ city }));
         }
     }));
