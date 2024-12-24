@@ -9,7 +9,7 @@ import ForecastThumbnail from './ForecastThumbnail';
 export default function Forecasts() {
     const forecasts = useWeatherStore((state) => state?.forecasts);
     return (
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-4 my-5">
             {forecasts.length ? (
                 <>
                     {forecasts?.map((weatherDetails, index) => (
@@ -24,8 +24,8 @@ export default function Forecasts() {
                 </>
             ) : (
                 <>
-                    {[...new Array(8)].map((el) => (
-                        <Skeleton key={el} className="w-32 h-32" />
+                    {[...new Array(8)].map((_, index) => (
+                        <Skeleton key={index} className="w-32 h-32" />
                     ))}
                 </>
             )}

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 
 import useLocation from '../hooks/useLocation';
 import useWeatherBit from '../hooks/useWeatherBit';
+import ChangeMeasurement from './ChangeMeasurement';
 import CityOfLocation from './CityOfLocation';
 
 export default function Header() {
@@ -24,9 +25,12 @@ export default function Header() {
             <div className="font-extrabold flex gap-2 items-center">
                 <CityOfLocation />
             </div>
-            <Button onClick={refresh} variant="outline">
-                Refresh
-            </Button>
+            <div className="flex gap-3">
+                <ChangeMeasurement />
+                <Button onClick={refresh} variant="outline">
+                    Refresh
+                </Button>
+            </div>
         </div>
     );
 }
