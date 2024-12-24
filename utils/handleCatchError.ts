@@ -1,12 +1,17 @@
 import { toast } from 'sonner';
 
-export default function handleCatchError(error: unknown) {
+/**
+ * Handles errors by displaying a toast notification with the error message.
+ *
+ * @param {Error | string} error - The error to handle.
+ */
+export default function handleCatchError(error: Error | string): void {
     let message = 'Error while operation';
 
-    if (error instanceof Error) {
+    if (typeof error === 'string') {
+        message = error;
+    } else if (error.message) {
         message = error.message;
-    } else {
-        message = String(error);
     }
 
     toast(message);

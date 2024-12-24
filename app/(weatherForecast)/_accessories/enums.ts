@@ -1,5 +1,12 @@
+/**
+ * Enum for WeatherBit units.
+ * M - Metric
+ * S - Scientific
+ * I - Fahrenheit
+ */
+
 export enum EWeatherBitUnits {
-    M, // Metric
-    S, // Scientific
-    I // Fahrenheit
+    M = 'M',
+    S = 'S',
+    I = 'I'
 }
