@@ -8,7 +8,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 pnpm i
 ```
 
-2nd, prepare development tools:
+2nd, prepare contribution tools (optional for self use):
 
 ```bash
 pnpm prepare
@@ -16,8 +16,10 @@ pnpm prepare
 
 3th, config `.env` file with your api keys:
 
-you need to get api key from weatherbit.io and set it to `.env` file with key `NEXT_PUBLIC_WEATHERBIT_API_KEY`
-you need to get api key from ipgeolocation.io and set it to `.env` filen with key `NEXT_PUBLIC_IP_GEOLOCATION_API_KEY`
+you need to get api key from
+
+- `weatherbit.io` and set it to `.env` file with key `NEXT_PUBLIC_WEATHERBIT_API_KEY`
+- `ipgeolocation.io` and set it to `.env` filen with key `NEXT_PUBLIC_IP_GEOLOCATION_API_KEY`
 
 4th, run the development server:
 
