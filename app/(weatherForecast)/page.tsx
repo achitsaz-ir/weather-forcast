@@ -11,5 +11,5 @@ import WeatherDetails from './_accessories/components/WeatherDetails';
  * @returns {JSX.Element} The rendered Home component.
  */
 export default function Home(): JSX.Element {
-    return <WeatherDetails />;
+  return <WeatherDetails />;
 }

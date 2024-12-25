@@ -11,9 +11,7 @@ import useWeatherStore from '../hooks/useWeatherStore';
  */
 const TodayDate: React.FC = (): JSX.Element => {
   const weatherIndex = useWeatherIndex();
-  const forecastDateTime = useWeatherStore(
-    (state) => state?.forecasts?.[weatherIndex]?.datetime,
-  );
+  const forecastDateTime = useWeatherStore((state) => state?.forecasts?.[weatherIndex]?.datetime);
 
   if (!forecastDateTime) {
     return <Skeleton className="rounded w-40 h-6" />;

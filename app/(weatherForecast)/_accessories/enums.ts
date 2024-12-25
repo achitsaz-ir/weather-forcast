@@ -9,7 +9,7 @@
  * - I: Fahrenheit
  */
 export enum EWeatherBitUnits {
-    M = 'M',
-    S = 'S',
-    I = 'I'
+  M = 'M',
+  S = 'S',
+  I = 'I',
 }
