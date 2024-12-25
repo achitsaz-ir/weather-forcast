@@ -11,7 +11,7 @@ print_error_and_exit() {
 
 # Function to validate the branch name
 validate_branch_name() {
-  local branch_name_pattern="^(main|develop|(feature|bugFix|hotFix)\/T[0-9]+\-[a-z])"
+  local branch_name_pattern="^(main|develop|(feature|bugFix|hotFix|issueFix)\/T[0-9]+\-[a-z])"
   local current_branch=$(git branch --show-current)
 
   if ! echo "$current_branch" | egrep "$branch_name_pattern" > /dev/null; then
@@ -21,7 +21,7 @@ validate_branch_name() {
 
 # Function to validate the commit message
 validate_commit_message() {
-  local commit_msg_pattern="^[🐛|✨|️🚑|🎨|🔒️|⬆️|🚧|🔥]+ \[[0-9]+\] [A-Z]"
+  local commit_msg_pattern="^[🐛|✨|️🚑|🎨|🔒️|⬆️|🚧|🔥|📝]+ \[[0-9]+\] [A-Z]"
 
   if ! egrep "$commit_msg_pattern" -r .git/COMMIT_EDITMSG > /dev/null; then
     print_error_and_exit "Git message validation failed. Valid examples: 🐛 [20065] Test message"

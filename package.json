@@ -2,13 +2,32 @@
     "name": "weather-forecast",
     "version": "0.1.0",
     "private": true,
+    "description": "A Progressive Web Application to provide accurate and up-to-date weather forecasts for any location.",
     "scripts": {
         "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
         "prepare": "husky install .husky"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/achitsaz-ir/weather-forecast.git"
+    },
+    "keywords": [
+        "pwa",
+        "nextjs",
+        "zustand",
+        "shadcn/ui",
+        "tailwindcss",
+        "weather",
+        "forecast"
+    ],
+    "author": "Soheil",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/achitsaz-ir/weather-forecast/issues"
+    },
+    "homepage": "https://github.com/achitsaz-ir/weather-forecast#readme",
     "dependencies": {
         "@radix-ui/react-dialog": "^1.1.4",
         "@radix-ui/react-popover": "^1.1.4",
