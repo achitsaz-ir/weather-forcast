@@ -11,17 +11,11 @@ import useWeatherStore from '../hooks/useWeatherStore';
  */
 const DayTemperature: React.FC = (): JSX.Element => {
   const weatherIndex = useWeatherIndex();
-  const dayTemperature = useWeatherStore(
-    (state) => state?.forecasts?.[weatherIndex]?.temp,
-  );
+  const dayTemperature = useWeatherStore((state) => state?.forecasts?.[weatherIndex]?.temp);
 
   return (
     <div className="font-bold text-3xl sm:text-4xl text-gray-900 dark:text-gray-100 text-center my-5 flex items-center justify-center">
-      {!dayTemperature ? (
-        <Skeleton className="rounded w-20 h-10" />
-      ) : (
-        <span>{dayTemperature}</span>
-      )}
+      {!dayTemperature ? <Skeleton className="rounded w-20 h-10" /> : <span>{dayTemperature}</span>}
     </div>
   );
 };

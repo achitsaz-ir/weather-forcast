@@ -15,15 +15,15 @@ import { WeatherStoreProvider } from './_accessories/providers/WeatherStoreProvi
  * @returns {JSX.Element} The rendered component.
  */
 export default function WeatherForecastTemplate({ children }: { children: React.ReactNode }): JSX.Element {
-    return (
-        <WeatherStoreProvider>
-            <Suspense fallback={<LoadingFallback />}>
-                <Header />
-                <main className="px-36">{children}</main>
-                <Toaster />
-            </Suspense>
-        </WeatherStoreProvider>
-    );
+  return (
+    <WeatherStoreProvider>
+      <Suspense fallback={<LoadingFallback />}>
+        <Header />
+        <main className="px-36">{children}</main>
+        <Toaster />
+      </Suspense>
+    </WeatherStoreProvider>
+  );
 }
 
 /**
@@ -32,5 +32,5 @@ export default function WeatherForecastTemplate({ children }: { children: React.
  * @returns {JSX.Element} The rendered LoadingFallback component.
  */
 function LoadingFallback(): JSX.Element {
-    return <div>Loading...</div>;
+  return <div>Loading...</div>;
 }

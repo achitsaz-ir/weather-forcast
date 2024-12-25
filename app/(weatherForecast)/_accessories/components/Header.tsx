@@ -31,11 +31,7 @@ const Header: React.FC = (): JSX.Element => {
       </div>
       <div className="flex gap-3">
         <ChangeMeasurement />
-        <Button
-          onClick={refresh}
-          variant="outline"
-          aria-label="Refresh weather data"
-        >
+        <Button onClick={refresh} variant="outline" aria-label="Refresh weather data">
           Refresh
         </Button>
       </div>

@@ -1,3 +1,5 @@
+![Weather Forecast](weather-forecast.png)
+
 # Weather Forecast
 
 Welcome to the **Weather Forecast** application! This project is designed to provide accurate and up-to-date weather forecasts for any location. Built with Next.js, Tailwind CSS, Zustand, and shadcn/ui, this Progressive Web Application (PWA) offers a seamless and responsive user experience.
@@ -6,9 +8,9 @@ Welcome to the **Weather Forecast** application! This project is designed to pro
 
 - [Features](#features)
 - [Getting Started](#getting-started)
-    - [Installation](#installation)
-    - [Configuration](#configuration)
-    - [Running the Application](#running-the-application)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Running the Application](#running-the-application)
 - [Project Structure](#project-structure)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -90,13 +92,13 @@ weather-forecast/
 
 - **`app/`**: Main application code, organized by feature. This follows the new App Directory structure introduced in Next.js 13.
 
-    - **`(weatherForecast)/`**: A Route Group for the weather forecast feature. Route Groups allow you to organize routes without affecting the URL structure. This directory contains all the routes and components related to the weather forecast feature.
-        - **`_accessories/`**: A private folder within the `weatherForecast` Route Group. Private folders (prefixed with an underscore) are used to store components, hooks, providers, stores, enums, and interfaces that are not directly accessible as routes. This helps in organizing the code and keeping the route structure clean.
-        - **`forecast/[weatherIndex]/`**: Dynamic route for displaying weather forecast details based on the `weatherIndex`.
+  - **`(weatherForecast)/`**: A Route Group for the weather forecast feature. Route Groups allow you to organize routes without affecting the URL structure. This directory contains all the routes and components related to the weather forecast feature.
+    - **`_accessories/`**: A private folder within the `weatherForecast` Route Group. Private folders (prefixed with an underscore) are used to store components, hooks, providers, stores, enums, and interfaces that are not directly accessible as routes. This helps in organizing the code and keeping the route structure clean.
+    - **`forecast/[weatherIndex]/`**: Dynamic route for displaying weather forecast details based on the `weatherIndex`.
 
 - **`components/`**: Reusable UI components that can be used across the application.
 
-    - **`ui/`**: Components from the `shadcn/ui` library.
+  - **`ui/`**: Components from the `shadcn/ui` library.
 
 - **`lib/`**: Utility functions from library like `shadcn/ui`
 
@@ -166,15 +168,15 @@ We use Husky to enforce commit message guidelines and run pre-commit hooks. Plea
 
 - Use emojis to indicate the type of change:
 
-    - 🐛 for bug fixes
-    - ✨ for new features
-    - 🚑 for critical hotfixes
-    - 🎨 for code style changes
-    - 🔒️ for security fixes
-    - ⬆️ for dependency upgrades
-    - 🚧 for work in progress
-    - 🔥 for removing code or files
-    - 📝 for documentation changes
+  - 🐛 for bug fixes
+  - ✨ for new features
+  - 🚑 for critical hotfixes
+  - 🎨 for code style changes
+  - 🔒️ for security fixes
+  - ⬆️ for dependency upgrades
+  - 🚧 for work in progress
+  - 🔥 for removing code or files
+  - 📝 for documentation changes
 
 - Include the branch number in square brackets.
 - Start the commit message with a capital letter.

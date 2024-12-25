@@ -6,13 +6,13 @@ import { toast } from 'sonner';
  * @param {Error | string} error - The error to handle.
  */
 export default function handleCatchError(error: Error | string): void {
-    let message = 'Error while operation';
+  let message = 'Error while operation';
 
-    if (typeof error === 'string') {
-        message = error;
-    } else if (error.message) {
-        message = error.message;
-    }
+  if (typeof error === 'string') {
+    message = error;
+  } else if (error.message) {
+    message = error.message;
+  }
 
-    toast(message);
+  toast(message);
 }
