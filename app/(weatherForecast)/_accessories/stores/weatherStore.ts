@@ -1,16 +1,16 @@
 import { create } from 'zustand';
 
-import { IWeather } from '../interfaces';
+import { IWeatherData } from '../interfaces';
 
 /**
  * Interface representing the state of the weather store.
  *
- * @property {IWeather[]} forecasts - Array of weather forecasts.
+ * @property {IWeatherData[]} forecasts - Array of weather forecasts.
  * @property {string} city - Name of the city for the weather forecasts.
  */
 interface IWeatherState {
-    forecasts: IWeather[];
-    city: string;
+  forecasts: IWeatherData[];
+  city: string;
 }
 
 /**
@@ -20,8 +20,8 @@ interface IWeatherState {
  * @property {function} setCityOfLocation - Function to set the city of the location.
  */
 interface IWeatherActions {
-    setWeatherForecasts: (weather: IWeather[]) => void;
-    setCityOfLocation: (city: string) => void;
+  setWeatherForecasts: (weather: IWeatherData[]) => void;
+  setCityOfLocation: (city: string) => void;
 }
 
 /**
@@ -35,8 +35,8 @@ export interface IWeatherStore extends IWeatherActions, IWeatherState {}
  * @returns {IWeatherState} The default state.
  */
 const defaultState = (): IWeatherState => ({
-    forecasts: [],
-    city: ''
+  forecasts: [],
+  city: '',
 });
 
 /**
@@ -46,12 +46,12 @@ const defaultState = (): IWeatherState => ({
  * @returns {IWeatherStore} The created weather store.
  */
 export const createWeatherStore = (initState: () => IWeatherState = defaultState) =>
-    create<IWeatherStore>()((set) => ({
-        ...initState(),
-        setWeatherForecasts(weather) {
-            set(() => ({ forecasts: weather }));
-        },
-        setCityOfLocation(city) {
-            set(() => ({ city }));
-        }
-    }));
+  create<IWeatherStore>()((set) => ({
+    ...initState(),
+    setWeatherForecasts(weather) {
+      set(() => ({ forecasts: weather }));
+    },
+    setCityOfLocation(city) {
+      set(() => ({ city }));
+    },
+  }));

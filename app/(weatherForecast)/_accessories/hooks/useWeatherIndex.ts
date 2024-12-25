@@ -1,17 +1,17 @@
-'use client';
-
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 /**
- * Custom hook to get the weather index from the URL parameters.
- *
- * This hook uses the useParams hook from next/navigation to retrieve the weather index
- * from the URL parameters and returns it as a number.
- *
- * @returns {number} The weather index from the URL parameters.
+ * Custom hook to get the weather index from the URL search parameters.
+ * The weather index is used to identify and retrieve specific weather data
+ * for a particular day from the weather forecasts stored in the weather store.
+ * @returns {number} The weather index.
  */
-export default function useWeatherIndex(): number {
-    const params = useParams<{ weatherIndex?: string }>();
+const useWeatherIndex = (): number => {
+  const searchParams = useSearchParams();
+  const weatherIndexParam = searchParams.get('weatherIndex');
+  const weatherIndex = parseInt(weatherIndexParam || '0', 10);
 
-    return Number(params?.weatherIndex ?? 0);
-}
+  return weatherIndex;
+};
+
+export default useWeatherIndex;

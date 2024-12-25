@@ -13,7 +13,7 @@ interface IWeatherStoreApi extends ReturnType<typeof createWeatherStore> {}
  * Interface representing the props for the WeatherStoreProvider component.
  */
 interface IWeatherStoreProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 /**
@@ -29,13 +29,13 @@ export const WeatherStoreContext = createContext<IWeatherStoreApi | undefined>(u
  * @returns {JSX.Element} The rendered component.
  */
 export function WeatherStoreProvider({ children }: IWeatherStoreProviderProps): JSX.Element {
-    const storeRef = useRef<IWeatherStoreApi | undefined>(undefined);
+  const storeRef = useRef<IWeatherStoreApi | undefined>(undefined);
 
-    if (!storeRef.current) {
-        storeRef.current = createWeatherStore();
-    }
+  if (!storeRef.current) {
+    storeRef.current = createWeatherStore();
+  }
 
-    const stateApi = storeRef.current;
+  const weatherStore = storeRef.current;
 
-    return <WeatherStoreContext.Provider value={stateApi}>{children}</WeatherStoreContext.Provider>;
+  return <WeatherStoreContext.Provider value={weatherStore}>{children}</WeatherStoreContext.Provider>;
 }

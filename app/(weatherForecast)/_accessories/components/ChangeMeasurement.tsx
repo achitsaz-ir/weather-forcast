@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 
 import { EWeatherBitUnits } from '../enums';
 import useWeatherStore from '../hooks/useWeatherStore';
+import UnitSymbol from './UnitSymbol';
 
 /**
  * Component to change the measurement unit for the weather data.
@@ -17,21 +18,21 @@ import useWeatherStore from '../hooks/useWeatherStore';
  * @returns {JSX.Element} The rendered ChangeMeasurement component.
  */
 export default function ChangeMeasurement(): JSX.Element {
-    const searchParams = useSearchParams();
-    const setWeatherForecasts = useWeatherStore((state) => state.setWeatherForecasts);
-    const unit = searchParams.get('unit');
+  const searchParams = useSearchParams();
+  const setWeatherForecasts = useWeatherStore((state) => state.setWeatherForecasts);
+  const unit = searchParams.get('unit');
 
-    useEffect(() => {
-        setWeatherForecasts([]);
-    }, [unit, setWeatherForecasts]);
+  useEffect(() => {
+    setWeatherForecasts([]);
+  }, [unit, setWeatherForecasts]);
 
-    return (
-        <div className="flex gap-3">
-            <MeasurementButton unit={EWeatherBitUnits.M} currentUnit={unit} />
-            <MeasurementButton unit={EWeatherBitUnits.S} currentUnit={unit} />
-            <MeasurementButton unit={EWeatherBitUnits.I} currentUnit={unit} />
-        </div>
-    );
+  return (
+    <div className="flex gap-3">
+      <MeasurementButton unit={EWeatherBitUnits.M} currentUnit={unit} />
+      <MeasurementButton unit={EWeatherBitUnits.S} currentUnit={unit} />
+      <MeasurementButton unit={EWeatherBitUnits.I} currentUnit={unit} />
+    </div>
+  );
 }
 
 /**
@@ -46,33 +47,13 @@ export default function ChangeMeasurement(): JSX.Element {
  * @returns {JSX.Element} The rendered MeasurementButton component.
  */
 function MeasurementButton({ unit, currentUnit }: { unit: EWeatherBitUnits; currentUnit: string | null }): JSX.Element {
-    const unitSymbol = getUnitSymbol(unit);
-    const isActive = currentUnit === unit;
+  const isActive = currentUnit === unit;
 
-    return (
-        <Link href={`?unit=${unit}`}>
-            <Button variant="outline" className={isActive ? 'border-blue-600' : ''}>
-                {unitSymbol}
-            </Button>
-        </Link>
-    );
-}
-
-/**
- * Gets the symbol for a measurement unit.
- *
- * @param {EWeatherBitUnits} unit - The measurement unit.
- * @returns {string} The symbol for the measurement unit.
- */
-function getUnitSymbol(unit: EWeatherBitUnits): string {
-    switch (unit) {
-        case EWeatherBitUnits.M:
-            return '℃';
-        case EWeatherBitUnits.S:
-            return 'K';
-        case EWeatherBitUnits.I:
-            return '℉';
-        default:
-            return '';
-    }
+  return (
+    <Link href={`?unit=${unit}`}>
+      <Button variant="outline" className={isActive ? 'border-blue-600' : ''}>
+        <UnitSymbol specificUnit={unit} />
+      </Button>
+    </Link>
+  );
 }

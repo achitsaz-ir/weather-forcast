@@ -13,18 +13,19 @@ import { IWeatherStore } from '../stores/weatherStore';
  * This hook uses the useContext hook to retrieve the weather store context
  * and the useStore hook from Zustand to select a specific part of the store.
  *
- * @param {function} selector - Function to select a specific part of the weather store.
+ * @template T
+ * @param {function(IWeatherStore): T} selector - Function to select a specific part of the weather store.
  * @returns {T} The selected part of the weather store.
  * @throws {Error} If the hook is used outside of the WeatherStoreProvider.
  */
 const useWeatherStore = <T>(selector: (store: IWeatherStore) => T): T => {
-    const weatherStoreContext = useContext(WeatherStoreContext);
+  const weatherStore = useContext(WeatherStoreContext);
 
-    if (!weatherStoreContext) {
-        throw new Error('useWeatherStore must be used within WeatherStoreProvider');
-    }
+  if (!weatherStore) {
+    throw new Error('useWeatherStore must be used within a WeatherStoreProvider');
+  }
 
-    return useStore(weatherStoreContext, selector);
+  return useStore(weatherStore, selector);
 };
 
 export default useWeatherStore;

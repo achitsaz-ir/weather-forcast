@@ -3,7 +3,6 @@ import React, { JSX } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import useWeatherStore from '../hooks/useWeatherStore';
-import { IWeatherDetails } from '../interfaces';
 import ForecastThumbnail from './ForecastThumbnail';
 
 /**
@@ -15,25 +14,25 @@ import ForecastThumbnail from './ForecastThumbnail';
  * @returns {JSX.Element} The rendered Forecasts component.
  */
 export default function Forecasts(): JSX.Element {
-    const forecasts = useWeatherStore((state) => state?.forecasts);
+  const forecasts = useWeatherStore((state) => state?.forecasts);
 
-    return (
-        <div className="flex flex-wrap items-center justify-center gap-4 my-5">
-            {forecasts.length ? (
-                forecasts.map((weatherDetails, index) => (
-                    <ForecastThumbnail
-                        key={index}
-                        index={index}
-                        icon={(weatherDetails.weather as unknown as IWeatherDetails).icon}
-                        description={(weatherDetails.weather as unknown as IWeatherDetails).description}
-                        temp={weatherDetails.temp as string}
-                    />
-                ))
-            ) : (
-                <LoadingSkeleton count={8} />
-            )}
-        </div>
-    );
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-4 my-5">
+      {forecasts.length ? (
+        forecasts.map((weatherDetails, index) => (
+          <ForecastThumbnail
+            key={index}
+            index={index}
+            icon={weatherDetails.weather.icon}
+            description={weatherDetails.weather.description}
+            temp={weatherDetails.temp as string}
+          />
+        ))
+      ) : (
+        <LoadingSkeleton count={8} />
+      )}
+    </div>
+  );
 }
 
 /**
@@ -46,11 +45,11 @@ export default function Forecasts(): JSX.Element {
  * @returns {JSX.Element} The rendered LoadingSkeleton component.
  */
 function LoadingSkeleton({ count }: { count: number }): JSX.Element {
-    return (
-        <>
-            {[...new Array(count)].map((_, index) => (
-                <Skeleton key={index} className="w-32 h-32" />
-            ))}
-        </>
-    );
+  return (
+    <>
+      {[...new Array(count)].map((_, index) => (
+        <Skeleton key={index} className="w-32 h-32" />
+      ))}
+    </>
+  );
 }
