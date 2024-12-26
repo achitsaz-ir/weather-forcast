@@ -5,9 +5,6 @@ import handleCatchError from '@/utils/handleCatchError';
 import { ILocation } from '../interfaces';
 import useWeatherStore from './useWeatherStore';
 
-const API_KEY = process.env.NEXT_PUBLIC_WEATHERBIT_API_KEY;
-const BASE_URL = 'https://api.weatherbit.io/v2.0/current/forecast/daily';
-
 /**
  * Custom hook to fetch weather data from the WeatherBit API.
  *
@@ -58,9 +55,22 @@ export default function useWeatherBit(): {
  * @returns {string} The query URL for the WeatherBit API.
  */
 function buildWeatherBitQuery(latitude: number | string, longitude: number | string, weatherUnit: string | null): string {
-  const apiKey = process.env.NEXT_PUBLIC_WEATHERBIT_API_KEY;
-  if (!apiKey) {
+  const BASE_URL = 'https://api.weatherbit.io/v2.0/forecast/daily';
+  const API_KEY = process.env.NEXT_PUBLIC_WEATHERBIT_API_KEY;
+
+  if (!API_KEY) {
     throw new Error('API key for WeatherBit is not set');
   }
-  return `${BASE_URL}?days=8&lat=${latitude}&lon=${longitude}&key=${API_KEY}&units=${weatherUnit}`;
+
+  const url = new URL(BASE_URL);
+  url.searchParams.append('days', '8');
+  url.searchParams.append('lat', latitude.toString());
+  url.searchParams.append('lon', longitude.toString());
+  url.searchParams.append('key', API_KEY);
+
+  if (weatherUnit) {
+    url.searchParams.append('units', weatherUnit);
+  }
+
+  return url.toString();
 }

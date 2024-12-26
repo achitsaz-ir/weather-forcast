@@ -20,8 +20,9 @@ export default function CityOfLocation(): JSX.Element {
   }
 
   return (
-    <div className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 text-center my-5 flex items-center justify-center">
+    <div className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 text-center my-5 flex items-center justify-start">
       {city}
+      Current Location
     </div>
   );
 }

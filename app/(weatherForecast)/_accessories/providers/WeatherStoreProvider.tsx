@@ -39,3 +39,5 @@ export function WeatherStoreProvider({ children }: IWeatherStoreProviderProps): 
 
   return <WeatherStoreContext.Provider value={weatherStore}>{children}</WeatherStoreContext.Provider>;
 }
+
+export default WeatherStoreProvider;

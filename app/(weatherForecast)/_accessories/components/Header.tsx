@@ -19,13 +19,13 @@ const Header: React.FC = (): JSX.Element => {
   const { latitude, longitude, refresh } = useLocation();
 
   useEffect(() => {
-    if (latitude !== undefined && longitude !== undefined) {
+    if (latitude !== null && longitude !== null) {
       getTodayWeather({ latitude, longitude });
     }
   }, [getTodayWeather, latitude, longitude, searchParams]);
 
   return (
-    <header className="border-b p-5 shadow-none flex flex-col sm:flex-row items-center justify-between bg-white dark:bg-gray-800">
+    <header className="border-b p-4 sm:p-5 shadow-none flex flex-col sm:flex-row items-center justify-between bg-white dark:bg-gray-800">
       <div className="font-extrabold flex gap-2 items-center text-gray-900 dark:text-gray-100 mb-4 sm:mb-0">
         <CityOfLocation />
       </div>

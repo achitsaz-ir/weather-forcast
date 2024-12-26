@@ -19,7 +19,7 @@ export default function WeatherForecastTemplate({ children }: { children: React.
     <WeatherStoreProvider>
       <Suspense fallback={<LoadingFallback />}>
         <Header />
-        <main className="px-36">{children}</main>
+        <main className="px-4 sm:px-6 md:px-12 lg:px-24 xl:px-36">{children}</main>
         <Toaster />
       </Suspense>
     </WeatherStoreProvider>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { toast } from 'sonner';
 
@@ -17,11 +17,8 @@ import { ILocation } from '../interfaces';
  *
  * @returns {object} The user's location and a function to refresh the location.
  */
-export default function useLocation() {
-  const [userLocation, setUserLocation] = useState<ILocation | null>({
-    latitude: 32.6572,
-    longitude: 51.6776,
-  });
+export default function useLocation(): { latitude: string | number | null; longitude: string | number | null; refresh: () => void } {
+  const [userLocation, setUserLocation] = useState<ILocation | null>(null);
 
   const getUserLocation = () => {
     if (navigator.geolocation) {
@@ -44,11 +41,11 @@ export default function useLocation() {
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getUserLocation();
   }, []);
 
-  return { ...userLocation, refresh: getUserLocation };
+  return { latitude: userLocation?.latitude ?? null, longitude: userLocation?.longitude ?? null, refresh: getUserLocation };
 }
 
 /**

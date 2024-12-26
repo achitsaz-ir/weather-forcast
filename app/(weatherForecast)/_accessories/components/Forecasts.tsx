@@ -1,4 +1,4 @@
-import React, { JSX } from 'react';
+import React, { JSX, useMemo } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -13,27 +13,26 @@ import ForecastThumbnail from './ForecastThumbnail';
  *
  * @returns {JSX.Element} The rendered Forecasts component.
  */
-export default function Forecasts(): JSX.Element {
+const Forecasts: React.FC = (): JSX.Element => {
   const forecasts = useWeatherStore((state) => state?.forecasts);
 
-  return (
-    <div className="flex flex-wrap items-center justify-center gap-4 my-5">
-      {forecasts.length ? (
-        forecasts.map((weatherDetails, index) => (
-          <ForecastThumbnail
-            key={index}
-            index={index}
-            icon={weatherDetails.weather.icon}
-            description={weatherDetails.weather.description}
-            temp={weatherDetails.temp as string}
-          />
-        ))
-      ) : (
-        <LoadingSkeleton count={8} />
-      )}
-    </div>
-  );
-}
+  const forecastDisplay = useMemo(() => {
+    if (!forecasts || forecasts.length === 0) {
+      return <LoadingSkeleton count={8} />;
+    }
+    return forecasts.map((weatherDetails, index) => (
+      <ForecastThumbnail
+        key={index}
+        index={index}
+        icon={weatherDetails.weather.icon}
+        description={weatherDetails.weather.description}
+        temp={weatherDetails.temp as string}
+      />
+    ));
+  }, [forecasts]);
+
+  return <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-5">{forecastDisplay}</div>;
+};
 
 /**
  * Component to display loading skeletons.
@@ -44,12 +43,14 @@ export default function Forecasts(): JSX.Element {
  * @param {number} props.count - The number of loading skeletons to render.
  * @returns {JSX.Element} The rendered LoadingSkeleton component.
  */
-function LoadingSkeleton({ count }: { count: number }): JSX.Element {
+const LoadingSkeleton: React.FC<{ count: number }> = ({ count }) => {
   return (
     <>
-      {[...new Array(count)].map((_, index) => (
-        <Skeleton key={index} className="w-32 h-32" />
+      {Array.from({ length: count }).map((_, index) => (
+        <Skeleton key={index} className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32" />
       ))}
     </>
   );
-}
+};
+
+export default Forecasts;

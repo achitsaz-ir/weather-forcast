@@ -17,7 +17,7 @@ import UnitSymbol from './UnitSymbol';
  *
  * @returns {JSX.Element} The rendered ChangeMeasurement component.
  */
-export default function ChangeMeasurement(): JSX.Element {
+const ChangeMeasurement: React.FC = (): JSX.Element => {
   const searchParams = useSearchParams();
   const setWeatherForecasts = useWeatherStore((state) => state.setWeatherForecasts);
   const unit = searchParams.get('unit');
@@ -33,7 +33,7 @@ export default function ChangeMeasurement(): JSX.Element {
       <MeasurementButton unit={EWeatherBitUnits.I} currentUnit={unit} />
     </div>
   );
-}
+};
 
 /**
  * Component for a measurement button.
@@ -46,14 +46,22 @@ export default function ChangeMeasurement(): JSX.Element {
  * @param {string | null} props.currentUnit - The currently selected measurement unit.
  * @returns {JSX.Element} The rendered MeasurementButton component.
  */
-function MeasurementButton({ unit, currentUnit }: { unit: EWeatherBitUnits; currentUnit: string | null }): JSX.Element {
+const MeasurementButton: React.FC<{ unit: EWeatherBitUnits; currentUnit: string | null }> = ({
+  unit,
+  currentUnit,
+}: {
+  unit: EWeatherBitUnits;
+  currentUnit: string | null;
+}): JSX.Element => {
   const isActive = currentUnit === unit;
 
   return (
     <Link href={`?unit=${unit}`}>
-      <Button variant="outline" className={isActive ? 'border-blue-600' : ''}>
+      <Button variant="outline" className={isActive ? 'border-blue-600' : ''} aria-pressed={isActive}>
         <UnitSymbol specificUnit={unit} />
       </Button>
     </Link>
   );
-}
+};
+
+export default ChangeMeasurement;

@@ -1,4 +1,4 @@
-import { useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 /**
  * Custom hook to get the weather index from the URL search parameters.
@@ -7,9 +7,9 @@ import { useSearchParams } from 'next/navigation';
  * @returns {number} The weather index.
  */
 const useWeatherIndex = (): number => {
-  const searchParams = useSearchParams();
-  const weatherIndexParam = searchParams.get('weatherIndex');
-  const weatherIndex = parseInt(weatherIndexParam || '0', 10);
+  const params = useParams();
+  const weatherIndexParam = params?.weatherIndex as string | undefined;
+  const weatherIndex = parseInt(weatherIndexParam ?? '0', 10);
 
   return weatherIndex;
 };
