@@ -1,26 +1,43 @@
 'use client';
 
-import { ReactNode, createContext, useRef } from 'react';
+import { JSX, ReactNode, createContext, useRef } from 'react';
 
 import { createWeatherStore } from '../stores/weatherStore';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+/**
+ * Interface representing the API of the weather store.
+ */
 interface IWeatherStoreApi extends ReturnType<typeof createWeatherStore> {}
 
+/**
+ * Interface representing the props for the WeatherStoreProvider component.
+ */
 interface IWeatherStoreProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
+/**
+ * Context for the weather store.
+ */
 export const WeatherStoreContext = createContext<IWeatherStoreApi | undefined>(undefined);
 
-export function WeatherStoreProvider({ children }: IWeatherStoreProviderProps) {
-    const storeRef = useRef<IWeatherStoreApi>(undefined);
+/**
+ * WeatherStoreProvider component to provide the weather store context to its children.
+ *
+ * @param {IWeatherStoreProviderProps} props - The component props.
+ * @param {ReactNode} props.children - The child components to be rendered within the provider.
+ * @returns {JSX.Element} The rendered component.
+ */
+export function WeatherStoreProvider({ children }: IWeatherStoreProviderProps): JSX.Element {
+  const storeRef = useRef<IWeatherStoreApi | undefined>(undefined);
 
-    if (!storeRef.current) {
-        storeRef.current = createWeatherStore();
-    }
+  if (!storeRef.current) {
+    storeRef.current = createWeatherStore();
+  }
 
-    const stateApi = storeRef.current;
+  const weatherStore = storeRef.current;
 
-    return <WeatherStoreContext.Provider value={stateApi}>{children}</WeatherStoreContext.Provider>;
+  return <WeatherStoreContext.Provider value={weatherStore}>{children}</WeatherStoreContext.Provider>;
 }
+
+export default WeatherStoreProvider;

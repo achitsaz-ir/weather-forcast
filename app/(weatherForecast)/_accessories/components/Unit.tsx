@@ -1,25 +1,17 @@
-import React from 'react';
+import React, { JSX } from 'react';
 
-import { useSearchParams } from 'next/navigation';
+import UnitSymbol from './UnitSymbol';
 
-import { EWeatherBitUnits } from '../enums';
+/**
+ * Unit component displays the temperature unit based on the URL search parameters.
+ * @returns {JSX.Element} The rendered component.
+ */
+const Unit: React.FC = (): JSX.Element => {
+  return (
+    <div className="font-extrabold text-3xl sm:text-5xl">
+      <UnitSymbol />
+    </div>
+  );
+};
 
-export default function Unit() {
-    const searchParams = useSearchParams();
-
-    const unitDefiner = () => {
-        switch (searchParams.get('unit') as keyof typeof EWeatherBitUnits | undefined) {
-            case 'M':
-                return <span>&#8451;</span>;
-            case 'S':
-                return <span>&#8490;</span>;
-            case 'I':
-                return <span>&#8457;</span>;
-
-            default:
-                return <span>&#8451;</span>;
-        }
-    };
-
-    return <div className="font-extrabold text-5xl">{unitDefiner()}</div>;
-}
+export default Unit;

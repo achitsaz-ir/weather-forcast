@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { JSX, useEffect } from 'react';
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -7,42 +7,61 @@ import { Button } from '@/components/ui/button';
 
 import { EWeatherBitUnits } from '../enums';
 import useWeatherStore from '../hooks/useWeatherStore';
+import UnitSymbol from './UnitSymbol';
 
-export default function ChangeMeasurement() {
-    const searchParams = useSearchParams();
-    const setWeatherForecasts = useWeatherStore((state) => state.setWeatherForecasts);
-    const unit = searchParams.get('unit');
+/**
+ * Component to change the measurement unit for the weather data.
+ *
+ * This component provides buttons to switch between different measurement units
+ * (Celsius, Kelvin, Fahrenheit) and updates the weather store accordingly.
+ *
+ * @returns {JSX.Element} The rendered ChangeMeasurement component.
+ */
+const ChangeMeasurement: React.FC = (): JSX.Element => {
+  const searchParams = useSearchParams();
+  const setWeatherForecasts = useWeatherStore((state) => state.setWeatherForecasts);
+  const unit = searchParams.get('unit');
 
-    useEffect(() => {
-        setWeatherForecasts([]);
-    }, [unit]);
+  useEffect(() => {
+    setWeatherForecasts([]);
+  }, [unit, setWeatherForecasts]);
 
-    return (
-        <div className="flex gap-3">
-            <Link href={`?unit=${EWeatherBitUnits[EWeatherBitUnits.M]}`}>
-                <Button
-                    variant="outline"
-                    className={!unit || unit === EWeatherBitUnits[EWeatherBitUnits.M] ? 'border-blue-600' : ''}
-                >
-                    &#8451;
-                </Button>
-            </Link>
-            <Link href={`?unit=${EWeatherBitUnits[EWeatherBitUnits.S]}`}>
-                <Button
-                    variant="outline"
-                    className={unit === EWeatherBitUnits[EWeatherBitUnits.S] ? 'border-blue-600' : ''}
-                >
-                    &#8490;
-                </Button>
-            </Link>
-            <Link href={`?unit=${EWeatherBitUnits[EWeatherBitUnits.I]}`}>
-                <Button
-                    variant="outline"
-                    className={unit === EWeatherBitUnits[EWeatherBitUnits.I] ? 'border-blue-600' : ''}
-                >
-                    &#8457;
-                </Button>
-            </Link>
-        </div>
-    );
-}
+  return (
+    <div className="flex gap-3">
+      <MeasurementButton unit={EWeatherBitUnits.M} currentUnit={unit} />
+      <MeasurementButton unit={EWeatherBitUnits.S} currentUnit={unit} />
+      <MeasurementButton unit={EWeatherBitUnits.I} currentUnit={unit} />
+    </div>
+  );
+};
+
+/**
+ * Component for a measurement button.
+ *
+ * This component renders a button for a specific measurement unit and highlights
+ * the button if it is the currently selected unit.
+ *
+ * @param {object} props - The component props.
+ * @param {EWeatherBitUnits} props.unit - The measurement unit for the button.
+ * @param {string | null} props.currentUnit - The currently selected measurement unit.
+ * @returns {JSX.Element} The rendered MeasurementButton component.
+ */
+const MeasurementButton: React.FC<{ unit: EWeatherBitUnits; currentUnit: string | null }> = ({
+  unit,
+  currentUnit,
+}: {
+  unit: EWeatherBitUnits;
+  currentUnit: string | null;
+}): JSX.Element => {
+  const isActive = currentUnit === unit;
+
+  return (
+    <Link href={`?unit=${unit}`}>
+      <Button variant="outline" className={isActive ? 'border-blue-600' : ''} aria-pressed={isActive}>
+        <UnitSymbol specificUnit={unit} />
+      </Button>
+    </Link>
+  );
+};
+
+export default ChangeMeasurement;

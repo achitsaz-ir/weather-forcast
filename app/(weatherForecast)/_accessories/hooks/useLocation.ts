@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { toast } from 'sonner';
 
@@ -8,64 +8,97 @@ import handleCatchError from '@/utils/handleCatchError';
 
 import { ILocation } from '../interfaces';
 
-export default function useLocation() {
-    const [userLocation, setUserLocation] = useState<ILocation | null>(null);
+/**
+ * Custom hook to get the user's location.
+ *
+ * This hook uses the Geolocation API to get the user's current location.
+ * If the Geolocation API is not available or the user denies permission,
+ * it falls back to using the ipgeolocation.io API.
+ *
+ * @returns {object} The user's location and a function to refresh the location.
+ */
+export default function useLocation(): { latitude: string | number | null; longitude: string | number | null; refresh: () => void } {
+  const [userLocation, setUserLocation] = useState<ILocation | null>(null);
 
-    const getUserLocation = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const { latitude, longitude } = position.coords;
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ latitude, longitude });
+        },
+        async (getPositionError: GeolocationPositionError) => {
+          await handleGeolocationError(getPositionError, setUserLocation);
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 1000,
+          timeout: 1000,
+        },
+      );
+    } else {
+      toast('Geolocation is not supported by this browser');
+    }
+  };
 
-                    setUserLocation({ latitude, longitude });
-                },
+  useEffect(() => {
+    getUserLocation();
+  }, []);
 
-                async (getPositionError) => {
-                    try {
-                        // you need to get api key from ipgeolocation.io and set it to .env with key NEXT_PUBLIC_IP_GEOLOCATION_API_KEY
-                        const webLocationRes = await fetch(
-                            `https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.NEXT_PUBLIC_IP_GEOLOCATION_API_KEY}`
-                        );
-                        if (!webLocationRes.ok) {
-                            throw new Error(`Error! Response status: ${webLocationRes.status}`);
-                        }
+  return { latitude: userLocation?.latitude ?? null, longitude: userLocation?.longitude ?? null, refresh: getUserLocation };
+}
 
-                        if (webLocationRes.status !== 200) {
-                            switch (getPositionError.code) {
-                                case 1:
-                                    toast('We need your location for the calculation');
-                                    return;
+/**
+ * Handles errors from the Geolocation API.
+ *
+ * If the Geolocation API fails, this function attempts to get the user's location
+ * using the ipgeolocation.io API. It also handles specific geolocation errors
+ * and displays appropriate messages to the user.
+ *
+ * @param {GeolocationPositionError} getPositionError - The error object from the Geolocation API.
+ * @param {Function} setUserLocation - Function to set the user's location.
+ */
+async function handleGeolocationError(getPositionError: GeolocationPositionError, setUserLocation: (location: ILocation) => void) {
+  try {
+    // You need to get an API key from ipgeolocation.io and set it to .env with key NEXT_PUBLIC_IP_GEOLOCATION_API_KEY
+    const apiKey = process.env.NEXT_PUBLIC_IP_GEOLOCATION_API_KEY;
+    if (!apiKey) {
+      throw new Error('API key for ipgeolocation.io is not set');
+    }
 
-                                default:
-                                    toast('There is an error in calculating your location. Please try again');
-                                    return;
-                            }
-                        }
+    const webLocationRes = await fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}`);
 
-                        const data = await webLocationRes.json();
-                        setUserLocation({
-                            latitude: data.latitude,
-                            longitude: data.longitude
-                        });
-                    } catch (error) {
-                        handleCatchError(error);
-                    }
-                },
+    if (!webLocationRes.ok) {
+      throw new Error(`Error! Response status: ${webLocationRes.status}`);
+    }
 
-                {
-                    enableHighAccuracy: true,
-                    maximumAge: 1000,
-                    timeout: 1000
-                }
-            );
-        } else {
-            toast('Geolocation is not supported by this browser');
-        }
-    };
+    const data = await webLocationRes.json();
+    setUserLocation({ latitude: data.latitude, longitude: data.longitude });
+  } catch (error) {
+    handleCatchError(error instanceof Error ? error : new Error('An unknown error occurred'));
+  }
 
-    useLayoutEffect(() => {
-        getUserLocation();
-    }, []);
+  handleSpecificGeolocationErrors(getPositionError);
+}
 
-    return { ...userLocation, refresh: getUserLocation };
+/**
+ * Handles specific geolocation errors and displays appropriate messages to the user.
+ *
+ * @param {GeolocationPositionError} getPositionError - The error object from the Geolocation API.
+ */
+function handleSpecificGeolocationErrors(getPositionError: GeolocationPositionError) {
+  switch (getPositionError.code) {
+    case getPositionError.PERMISSION_DENIED:
+      toast('Permission denied. We need your location for the calculation.');
+      break;
+    case getPositionError.POSITION_UNAVAILABLE:
+      toast('Position unavailable. Please try again.');
+      break;
+    case getPositionError.TIMEOUT:
+      toast('Request timed out. Please try again.');
+      break;
+    default:
+      toast('An unknown error occurred while fetching your location.');
+      break;
+  }
 }
